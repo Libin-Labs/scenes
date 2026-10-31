@@ -1,0 +1,26 @@
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+const root = fileURLToPath(new URL('../', import.meta.url));
+const compiler = fileURLToPath(new URL('../node_modules/typescript/bin/tsc', import.meta.url));
+execFileSync(
+  process.execPath,
+  [
+    compiler,
+    'tests/consumer.mts',
+    'tests/consumer.cts',
+    '--noEmit',
+    '--strict',
+    '--module',
+    'NodeNext',
+    '--moduleResolution',
+    'NodeNext',
+    '--target',
+    'ES2022',
+    '--lib',
+    'ES2022,DOM',
+    '--skipLibCheck',
+    'false',
+  ],
+  { cwd: root, stdio: 'inherit' },
+);
